@@ -34,15 +34,15 @@ pipeline {
                             
                             # Run Backend
                             docker run -d --name backend --net stranger-net -p 5000:5000 \
-                                -e DB_HOST="YOUR_RDS_ENDPOINT" \
+                                -e DB_HOST="stranger-db.chumewc4kop7.ap-south-1.rds.amazonaws.com" \
                                 -e DB_USER="admin" \
                                 -e DB_PASSWORD="strangerpassword" \
                                 -e DB_NAME="stranger_db" \
-                                YOUR_DOCKERHUB_USER/stranger-backend:latest
+                                yashasnagaraj/stranger-backend:latest
                                 
                             # Run Frontend
                             docker run -d --name frontend --net stranger-net -p 80:80 \
-                                YOUR_DOCKERHUB_USER/stranger-frontend:latest
+                                yashasnagaraj/stranger-frontend:latest
                         '
                     """
                 }
