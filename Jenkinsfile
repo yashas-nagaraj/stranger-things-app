@@ -4,7 +4,7 @@ pipeline {
         DOCKER_CREDS = credentials('dockerhub-login') 
         SSH_CREDS = credentials('ec2-ssh-key')
         // We will update this IP automatically or manually later
-        APP_SERVER_IP = '0.0.0.0' 
+        APP_SERVER_IP = '3.110.209.179' 
     }
     stages {
         stage('Build & Push') {
