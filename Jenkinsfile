@@ -4,7 +4,7 @@ pipeline {
         DOCKER_CREDS = credentials('dockerhub-login') 
         SSH_CREDS = credentials('ec2-ssh-key')
         // We will update this IP automatically or manually later
-        APP_SERVER_IP = '3.110.209.179' 
+        APP_SERVER_IP = '3.111.32.31' 
     }
     stages {
         stage('Build & Push') {
@@ -34,9 +34,9 @@ pipeline {
                             
                             # Run Backend
                             docker run -d --name backend --net stranger-net -p 5000:5000 \
-                                -e DB_HOST="stranger-db.chumewc4kop7.ap-south-1.rds.amazonaws.com" \
+                                -e DB_HOST="lazarus-db.chumewc4kop7.ap-south-1.rds.amazonaws.com" \
                                 -e DB_USER="admin" \
-                                -e DB_PASSWORD="strangerpassword" \
+                                -e DB_PASSWORD="strangerthings" \
                                 -e DB_NAME="stranger_db" \
                                 yashasnagaraj/stranger-backend:latest
                                 
