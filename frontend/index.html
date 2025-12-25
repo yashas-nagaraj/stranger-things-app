@@ -42,7 +42,7 @@
             let html = "";
             for (let id in data) {
                 html += `<p><b>Q: ${data[id].q}</b></p>`;
-                data[id].a.forEach(ans => html += `<small>A: ${ans}</small><br>`);
+                (data[id].a || []).forEach(ans => html += `<small>A: ${ans}</small><br>`);
                 html += `<input id="ans-${id}"><button onclick="reply(${id})">Reply</button><hr>`;
             }
             document.getElementById("qaList").innerHTML = html;
