@@ -11,7 +11,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('', 'dockerhub-login') {
-                        // We use the same image names as your manual test for consistency
+                        // Build with --no-cache to ensure Jenkins builds a fresh version
                         sh 'docker build --no-cache -t yashasnagaraj/stranger-backend:latest ./backend'
                         sh 'docker push yashasnagaraj/stranger-backend:latest'
                         sh 'docker build --no-cache -t yashasnagaraj/stranger-frontend:latest ./frontend'
@@ -29,11 +29,15 @@ pipeline {
                             docker stop frontend backend || true
                             docker rm frontend backend || true
                             
-                            # 2. Clean up network (We use lazarus-net to match your manual setup)
+                            # 2. Clean up network (Recreate to ensure clean slate)
                             docker network rm lazarus-net || true
                             docker network create lazarus-net
                             
-                            # 3. Run Backend (With CORRECT Password)
+                            # 3. FORCE PULL NEW IMAGES (Crucial for updates to show!)
+                            docker pull yashasnagaraj/stranger-backend:latest
+                            docker pull yashasnagaraj/stranger-frontend:latest
+                            
+                            # 4. Run Backend
                             docker run -d --name backend --net lazarus-net -p 5000:5000 \
                                 -e DB_HOST="lazarus-db.chumewc4kop7.ap-south-1.rds.amazonaws.com" \
                                 -e DB_USER="admin" \
@@ -41,7 +45,7 @@ pipeline {
                                 -e DB_NAME="stranger_db" \
                                 yashasnagaraj/stranger-backend:latest
                                 
-                            # 4. Run Frontend
+                            # 5. Run Frontend
                             docker run -d --name frontend --net lazarus-net -p 80:80 \
                                 yashasnagaraj/stranger-frontend:latest
                         '
