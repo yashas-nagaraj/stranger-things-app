@@ -12,9 +12,9 @@ pipeline {
                 script {
                     docker.withRegistry('', 'dockerhub-login') {
                         // We use the same image names as your manual test for consistency
-                        sh 'docker build -t yashasnagaraj/stranger-backend:latest ./backend'
+                        sh 'docker build --no-cache -t yashasnagaraj/stranger-backend:latest ./backend'
                         sh 'docker push yashasnagaraj/stranger-backend:latest'
-                        sh 'docker build -t yashasnagaraj/stranger-frontend:latest ./frontend'
+                        sh 'docker build --no-cache -t yashasnagaraj/stranger-frontend:latest ./frontend'
                         sh 'docker push yashasnagaraj/stranger-frontend:latest'
                     }
                 }
